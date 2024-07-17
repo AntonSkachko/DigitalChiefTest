@@ -1,10 +1,13 @@
 package org.bsuir.digitalchieftest.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.bsuir.digitalchieftest.model.dto.request.CompanyRequest;
+import org.bsuir.digitalchieftest.model.dto.response.CompanyResponse;
 import org.bsuir.digitalchieftest.model.entity.Company;
 import org.bsuir.digitalchieftest.repository.CompanyRepository;
 import org.bsuir.digitalchieftest.service.CompanyService;
 import org.bsuir.digitalchieftest.service.exception.ResourceNotFoundException;
+import org.bsuir.digitalchieftest.service.mapper.CompanyMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,31 +18,26 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository repository;
+    private final CompanyMapper mapper;
 
     @Override
-    public Company createCompany(Company company) {
-        return repository.save(company);
+    public CompanyResponse createCompany(CompanyRequest company) {
+        return mapper.toResponse(repository.save(mapper.toEntity(company)));
     }
 
     @Override
-    public Company updateCompany(UUID id, Company company) {
-
-        Company temp = getCompanyOrThrow(id);
-        temp.setAddress(company.getAddress());
-        temp.setName(company.getName());
-        temp.setIndustry(company.getIndustry());
-        temp.setYearOfEstablishment(company.getYearOfEstablishment());
-        return repository.save(temp);
+    public CompanyResponse updateCompany(UUID id, CompanyRequest company) {
+        return mapper.toResponse(repository.save(mapper.partialUpdate(company, getCompanyOrThrow(id))));
     }
 
     @Override
-    public List<Company> getCompanies() {
-        return repository.findAll();
+    public List<CompanyResponse> getCompanies() {
+        return mapper.toResponseList(repository.findAll());
     }
 
     @Override
-    public Company getCompany(UUID id) {
-        return getCompanyOrThrow(id);
+    public CompanyResponse getCompany(UUID id) {
+        return mapper.toResponse(getCompanyOrThrow(id));
     }
 
     @Override

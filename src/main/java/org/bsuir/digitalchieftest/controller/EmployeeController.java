@@ -2,7 +2,8 @@ package org.bsuir.digitalchieftest.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.bsuir.digitalchieftest.model.entity.Employee;
+import org.bsuir.digitalchieftest.model.dto.request.EmployeeRequest;
+import org.bsuir.digitalchieftest.model.dto.response.EmployeeResponse;
 import org.bsuir.digitalchieftest.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployee(
+    public ResponseEntity<EmployeeResponse> getEmployee(
             @Valid @PathVariable UUID id) {
 
         return ResponseEntity
@@ -28,7 +29,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAll() {
+    public ResponseEntity<List<EmployeeResponse>> getAll() {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -36,8 +37,8 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(
-            @Valid @RequestBody Employee employee) {
+    public ResponseEntity<EmployeeResponse> createEmployee(
+            @Valid @RequestBody EmployeeRequest employee) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -45,9 +46,9 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(
+    public ResponseEntity<EmployeeResponse> updateEmployee(
             @Valid @PathVariable UUID id,
-            @Valid @RequestBody Employee employee) {
+            @Valid @RequestBody EmployeeRequest employee) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

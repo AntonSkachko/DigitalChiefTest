@@ -2,7 +2,8 @@ package org.bsuir.digitalchieftest.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.bsuir.digitalchieftest.model.entity.Company;
+import org.bsuir.digitalchieftest.model.dto.request.CompanyRequest;
+import org.bsuir.digitalchieftest.model.dto.response.CompanyResponse;
 import org.bsuir.digitalchieftest.service.CompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Company> getCompany(
+    public ResponseEntity<CompanyResponse> getCompany(
             @Valid @PathVariable UUID id) {
 
         return ResponseEntity
@@ -28,7 +29,7 @@ public class CompanyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Company>> getAll() {
+    public ResponseEntity<List<CompanyResponse>> getAll() {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -36,8 +37,8 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<Company> createCompany(
-            @Valid @RequestBody Company company) {
+    public ResponseEntity<CompanyResponse> createCompany(
+            @Valid @RequestBody CompanyRequest company) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -45,9 +46,9 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(
+    public ResponseEntity<CompanyResponse> updateCompany(
             @Valid @PathVariable UUID id,
-            @Valid @RequestBody Company company) {
+            @Valid @RequestBody CompanyRequest company) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

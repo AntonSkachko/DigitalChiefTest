@@ -1,10 +1,13 @@
 package org.bsuir.digitalchieftest.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.bsuir.digitalchieftest.model.dto.request.EmployeeRequest;
+import org.bsuir.digitalchieftest.model.dto.response.EmployeeResponse;
 import org.bsuir.digitalchieftest.model.entity.Employee;
 import org.bsuir.digitalchieftest.repository.EmployeeRepository;
 import org.bsuir.digitalchieftest.service.EmployeeService;
 import org.bsuir.digitalchieftest.service.exception.ResourceNotFoundException;
+import org.bsuir.digitalchieftest.service.mapper.EmployeeMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,33 +19,28 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository repository;
+    private final EmployeeMapper mapper;
 
     @Override
     @Transactional
-    public Employee createEmployee(Employee employee) {
-        return repository.save(employee);
+    public EmployeeResponse createEmployee(EmployeeRequest employee) {
+        return mapper.toResponse(repository.save(mapper.toEntity(employee)));
     }
 
     @Override
-    public Employee getById(UUID id) {
-        return getEmployeeOrThrow(id);
+    public EmployeeResponse getById(UUID id) {
+        return mapper.toResponse(getEmployeeOrThrow(id));
     }
 
     @Override
-    public List<Employee> getEmployees() {
-        return repository.findAll();
+    public List<EmployeeResponse> getEmployees() {
+        return mapper.toResponseList(repository.findAll());
     }
 
     @Override
     @Transactional
-    public Employee updateEmployee(UUID id, Employee employee) {
-        Employee temp = getEmployeeOrThrow(id);
-        temp.setCompany(employee.getCompany());
-        temp.setName(employee.getName());
-        temp.setPosition(employee.getPosition());
-        temp.setSalary(employee.getSalary());
-
-        return repository.save(temp);
+    public EmployeeResponse updateEmployee(UUID id, EmployeeRequest employee) {
+        return mapper.toResponse(repository.save(mapper.partialUpdate(employee, getEmployeeOrThrow(id))));
     }
 
     @Override

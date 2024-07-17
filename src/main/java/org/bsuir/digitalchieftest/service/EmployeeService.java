@@ -1,14 +1,15 @@
 package org.bsuir.digitalchieftest.service;
 
-import org.bsuir.digitalchieftest.model.entity.Employee;
+import org.bsuir.digitalchieftest.model.dto.request.EmployeeRequest;
+import org.bsuir.digitalchieftest.model.dto.response.EmployeeResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface EmployeeService {
-    Employee createEmployee(Employee employee);
-    Employee getById(UUID id);
-    List<Employee> getEmployees();
-    Employee updateEmployee(UUID id, Employee employee);
+    EmployeeResponse createEmployee(EmployeeRequest employee);
+    EmployeeResponse getById(UUID id);
+    List<EmployeeResponse> getEmployees();
+    EmployeeResponse updateEmployee(UUID id, EmployeeRequest employee);
     void deleteEmployeeById(UUID id);
 }

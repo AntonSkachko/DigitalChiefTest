@@ -1,22 +1,14 @@
-package org.bsuir.digitalchieftest.model.entity;
+package org.bsuir.digitalchieftest.model.dto.request;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
 @Data
-@Entity
-public class Employee{
-    @Id
-    @UuidGenerator
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+public class EmployeeRequest {
 
-    @Column(unique = true)
     @NotBlank(message = "Name shouldn't be blank")
     @Size(min = 1, max = 45, message = "Name should be from 1 to 45")
     private String name;
@@ -24,8 +16,5 @@ public class Employee{
     @NotBlank(message = "Position shouldn't be blank")
     private String position;
     private Double salary;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    private UUID companyId;
 }

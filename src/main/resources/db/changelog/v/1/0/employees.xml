@@ -15,7 +15,7 @@
             <column name="position" type="varchar(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="salary" type="decimal(8,8)">
+            <column name="salary" type="decimal">
                 <constraints nullable="false"/>
             </column>
             <column name="company_id" type="${uuid_type}">
